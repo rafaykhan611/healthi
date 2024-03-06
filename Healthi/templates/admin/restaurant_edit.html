@@ -1,0 +1,100 @@
+{% include "admin/includes/head.html" %}
+{% include "admin/includes/navbar.html" %}
+{% include "admin/includes/sidebar.html" %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{page_name}}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <form action="{% url 'admin:restaurant_update' pk=restaurant.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-secondary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Genaral Details</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="inputName">Name</label>
+                                        <input type="text" id="inputName" name="name" class="form-control" value="{{restaurant.name}}" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputImage">Image</label>
+                                        <input type="file" id="inputImage" class="form-control" name="image">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputStatus">Status</label>
+                                        <select id="inputStatus" class="form-control custom-select" name="status" required>
+                                            <option selected disabled>Select Status</option>
+                                            <option value="Y" {% if restaurant.status == 'Y' %} selected {% endif %}>Active</option>
+                                            <option value="N" {% if restaurant.status == 'N' %} selected {% endif %}>Not Active</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName">Description</label>
+                                        <textarea class="form-control" rows="4" name="description" required>{{ restaurant.description }}</textarea>
+                                    </div>                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-secondary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Login Details</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="inputusername">Username</label>
+                                    <input type="text" class="form-control" name="username" id="inputusername" value="{{ restaurant.username }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputpassword">Password</label>
+                                    <input type="password" class="form-control" name="password" id="inputpassword" value="{{ restaurant.password }}" required>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <a href="/admin/cases" class="btn btn-secondary">Cancel</a>
+                        <input type="submit" value="Save" class="btn btn-success float-right">
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </form>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% include "admin/includes/footer.html" %}

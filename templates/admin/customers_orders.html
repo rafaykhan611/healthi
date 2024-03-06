@@ -1,0 +1,89 @@
+{% include "admin/includes/head.html" %}
+{% include "admin/includes/navbar.html" %}
+{% include "admin/includes/sidebar.html" %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Customer Orders</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body text-sm table-responsive">
+                            <table id="" class="table table-bordered table-hover dataTables">
+                                <thead>
+                                    <th class="text-center" style="">Sno</th>
+                                    <th class="text-left">Order Date</th>
+                                    <th class="text-left">Restaurant</th>
+                                    <th class="text-left">Menu</th>
+                                    <th class="text-left">Plan</th>
+                                    <th class="text-left">Price</th>
+                                </thead>
+                                <tbody>
+                                    {% for order in orderss %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{order.order.order_date|date:'d-M-Y'}}</td>
+                                        <td>
+                                            <ul>
+                                                {% for oi in order.items  %}
+                                                {{ oi.item.restaurant }}
+                                                {% endfor %}
+
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                {% for oi in order.items  %}
+                                                {{ oi.item.name }}
+                                                {% endfor %}
+
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                {% for oi in order.items  %}
+                                                {% if oi.plan == 'd' %}Daily{% elif oi.plan == 'w' %}Weekly{% elif oi.plan == 'm' %}Monthly{% endif %}
+                                                {% endfor %}
+
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                {% for oi in order.items  %}
+                                                {{ oi.price }}BHD
+                                                {% endfor %}
+
+                                            </ul>
+                                        </td>
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% include "admin/includes/footer.html" %}

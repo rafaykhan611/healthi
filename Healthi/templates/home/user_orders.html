@@ -1,0 +1,156 @@
+{% include "home/includes/head.html" %}
+{% include "home/includes/navbar.html" %}
+{% load navigation_tags %}
+{% load static %}
+<!-- hero-section -->
+<section class="hero-section gap">
+    <div class="container py-5 mt-5">
+        <div class="row align-items-center" style="min-height:300px">
+            <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" data-aos-duration="300">
+                <div class="restaurant">
+                    <h1>Your Orders History</h1>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-up"  data-aos-delay="300" data-aos-duration="400">
+                <div class="restaurants-girl-img food-photo-section">
+                    <img alt="man" src="assets/home/img/photo-11.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- best-restaurants -->
+<section class="best-restaurants gap">
+    <div class="container">
+    <div class="row gap-2">
+        <div class="col-lg-12">
+
+            <div class="Provides shadow-lg" data-aos="fade-up"  data-aos-delay="200" data-aos-duration="300">
+
+
+                <div class="nav nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Order History</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12">
+
+            <div class="tab-content" id="v-pills-tabContent" >
+
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <div class="row gap-2">
+                        {% for o in borders %}
+
+                        <div class="card bg-transparent-80" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title d-flex justify-content-between">Order #{{ o.order.id }}
+                                <button type="button" class="btn btn-border" data-bs-toggle="modal" data-bs-target="#comment_model_{{o.order.id}}" title="Rate Your Experiarnce">
+                                    <i class="fas fa-comment"></i>    
+                                </button></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ o.order.order_date|date:'d-M-Y' }}</h6>
+                                <p class="card-text">
+                                    <ul>
+                                        {% for oi in o.items %}
+                                            <li>Menu: {{ oi.item }} </li>
+                                            <li>Plan: {% if oi.plan == 'd' %}Daily{% elif oi.plan == 'w'  %}Weekly{% elif oi.plan == 'm' %}Monthly{% endif %} </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <span>Total Amount: {{ o.order.total_amount }}BHD</span>
+                                </p>
+                                {% comment %} <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a> {% endcomment %}
+                            </div>
+                        </div>
+                        
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} <div class="col-lg-6" data-aos="flip-up"  data-aos-delay="200" data-aos-duration="300">
+            <div class="logos-card restaurant-page ">
+                <img alt="logo" style="height:50px" src="{% static res.image %}">
+                    <div class="cafa">
+                        <h4><a href="{% url 'home:restaurant_view' pk=res.id %}">{{res}}</a></h4>
+                    </div>
+            </div>
+        </div> {% endcomment %}
+            
+    
+    </div>
+    </div>
+    </section>
+
+    
+{% for o in borders %}
+<!-- Modal -->
+<div class="modal fade" id="comment_model_{{o.order.id}}" tabindex="-1" aria-labelledby="comment_model_{{o.order.id}}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="comment_model_{{o..id}}_label">{% if o.reviews %}Your Feedback{% else %}Rate And Review{% endif %}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {% if o.reviews %}
+                <div class="p-5">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Your Rating ({{o.reviews.rating|floor}})</label>
+                        {% with rating=o.reviews.rating %}
+                        {% comment %} <pre>{{o.reviews.rating}}</pre> {% endcomment %}
+                        {% for i in rating|floor_range %}
+                            <i class="fa-solid fa-star text-primary"></i>
+                            {% endfor %}
+                        {% endwith %}
+                        {% if o.reviews.rating|has_decimal %}
+                            <i class="fa-regular fa-star-half-stroke text-primary"></i>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Your Feedback</label>
+                        <textarea rows="4" class="form-control" name="feedback" placeholder="Write your review..." readonly>{{o.reviews.text}}</textarea>
+                    </div>
+                </div>
+
+            {% else %}
+
+                <form class="p-5" id="rating_form_{{o.order.id}}" action="{% url "home:review_experience" %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Rate Your Experience From (1-5)</label>
+                        <input type="number" class="form-control" name="rating" min='1' max='5' onkeyup="limitRatingInput(this)" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Give Your Feedback</label>
+                        <textarea rows="4" class="form-control" name="feedback" placeholder="Write your review..." required></textarea>
+                        <input type="hidden" name="order" value="{{o.order.id}}">
+                    </div>
+
+                </form>
+
+            {% endif %}
+            
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            {% if not o.reviews %}<button type="submit" form="rating_form_{{o.order.id}}" class="btn btn-primary" >Submit</button>{% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% include "home/includes/footer.html" %}
+<script>
+    function limitRatingInput(input) {
+        // Ensure the value is between 1 and 5
+        if(input.value>5)
+            input.value = 5
+        else if(input.value<1)
+            input.value = 1
+    }
+</script>
+
+</body>
+</html>

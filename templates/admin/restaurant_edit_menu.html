@@ -1,0 +1,145 @@
+{% include "admin/includes/head.html" %}
+{% include "admin/includes/navbar.html" %}
+{% include "admin/includes/sidebar.html" %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{page_name}}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+
+        <form action="{% url 'admin:update_menu' restaurant_menu=menu.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-secondary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Genaral Details</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="inputName">Name</label>
+                                        <input type="text" id="inputName" name="name" class="form-control" value={{menu.name}} required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputImage">Image</label>
+                                        <input type="file" id="inputImage" class="form-control" name="image" value={{menu.image}} >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputStatus">Status</label>
+                                        <select id="inputStatus" class="form-control custom-select" name="status" required>
+                                            <option value="Y" {%  if menu.status == "Y" %}seleted{%endif%}>Active</option>
+                                            <option value="N" {%  if menu.status == "N" %}seleted{%endif%}>Not Active</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName">Description</label>
+                                        <textarea class="form-control" rows="4" name="description" required>{{ menu.description }}</textarea>
+                                    </div>                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-secondary">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Menu Items</h3>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                            
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="inputBreakfast">Breakfast</label>
+                                            <select name="breakfast" id="inputBreakfast" class="form-control select2" multiple>
+                                                {% for item in menu_items %}
+                                                        <option value="{{ item.id }}" {% if item.id in bundle.breakfast %}Selected{% endif %}>{{ item.name }}</option>
+                                                    {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputLunch">Lunch</label>
+                                            <select name="lunch" id="inputLunch" class="form-control select2" multiple>
+                                                {% for item in menu_items %}
+                                                        <option value="{{ item.id }}" {% if item.id in bundle.lunch %}Selected{% endif %}>{{ item.name }}</option>
+                                                    {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputDinner">Dinner</label>
+                                            <select name="dinner" id="inputDinner" class="form-control select2" multiple>
+                                                {% for item in menu_items %}
+                                                        <option value="{{ item.id }}" {% if item.id in bundle.dinner %}Selected{% endif %}>{{ item.name }}</option>
+                                                    {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card card-secondary">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Menu Price</h3>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    <div class="card-body d-flex justify-content-between gap-5">
+                                        <div class="form-group pr-4 border-right">
+                                            <label for="inputdp">Daily Plan Price</label>
+                                            <input type="text" id="inputdp" name="dpp" class="form-control" value="{{ menu.daily_plan_price }}" required>
+                                        </div>
+                                        <div class="form-group pr-4 border-right">
+                                            <label for="inputwp">Weekly Plan Price</label>
+                                            <input type="text" id="inputwp" name="wpp" class="form-control" value="{{ menu.weekly_plan_price }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputmp">Monthly Plan Price</label>
+                                            <input type="text" id="inputmp" name="mpp" class="form-control" value="{{ menu.monthly_plan_price }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-12 d-flex justify-content-between">
+                    <a href="{% url "admin:restaurant_menus" pk=menu.restaurant%}" class="btn btn-secondary">Cancel</a>
+                    <input type="submit" value="Save" class="btn btn-success">
+                </div>
+            </div>
+        </form>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% include "admin/includes/footer.html" %}

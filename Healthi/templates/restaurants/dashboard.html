@@ -1,0 +1,153 @@
+{% include "restaurants/includes/head.html" %}
+{% include "restaurants/includes/navbar.html" %}
+{% include "restaurants/includes/sidebar.html" %}
+{% load navigation_tags %}
+{% load static %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{page_name}}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+            <div class="col-md-3">
+
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img src="{% static restaurant.image %}" class="profile-user-img img-fluid img-circle"  alt="User restaurant picture"> </i>
+                        </div>
+                        <h3 class="profile-username text-center">{{ restaurant.name }}</h3>
+                    </div>
+                </div>
+
+
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">About {{ restaurant.name }}</h3>
+                </div>
+
+                <div class="card-body">
+                    <strong><i class="fas fa-book mr-1"></i> Description</strong>
+                    <p class="text-muted">
+                        {{ restaurant.description }}
+                    </p>
+                    <hr>
+                    <strong><i class="fas fa-calendar mr-1"></i> Date Created</strong>
+                    <p class="text-muted">{{ restaurant.date_created|date:"F d,Y"  }}</p>
+                    <hr>
+                    <strong><i class="fas fa-toggle-off mr-1"></i> Status</strong>
+                    <p class="text-muted">
+                        {% if restaurant.status == 'Y' %} <span class='badge bg-primary'> Active </span>
+                        {% else %} <span class='badge bg-danger'> Non-Active </span>
+                        {% endif %}
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header p-2">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Order</a></li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="activity">
+                            {% if orderss %}
+                                {% for o in orderss%}
+                                {{o.order}}
+                                <div class="post border-0">
+                                    <div class="user-block">
+                                        <i class="fas fa-shopping-bag fa-2x img-circle img-bordered-sm p-1 float-left"></i>
+                                        <span class="username">
+                                            <h3>{{ o.oi.order.order_date|date:'d-M-Y' }} {% if o.reviews %}<span class='h6'><button type="button" class="btn btn-border" data-toggle="modal" data-target="#comment_model_{{o.oi.order.id}}" title="Customer Feedback">
+                                                <i class="fas fa-comment"></i>    
+                                            </button></span>{% endif %}</h3>
+                                            
+                                        <span class="description">Customer :{{o.oi.order.user}}</span>
+                                        <span class="description">Menu :{{o.oi.item}}</span>
+                                        <span class="description">Plan Type :{% if o.oi.plan == 'd' %}Daily{% elif o.plan == 'w' %}Weekly{% elif o.plan == 'm' %}Daily{% endif %}</span>
+                                    </span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <div class="post">
+                                <div class="user-block text-center">
+                                    No Order
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% for o in orderss %}
+{% if o.reviews %}
+<!-- Modal -->
+<div class="modal fade" id="comment_model_{{o.oi.order.id}}" tabindex="-1" aria-labelledby="comment_model_{{o.oi.order.id}}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="comment_model_{{o.oi.order.id}}_label">Customer's Feedback</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            
+                <div class="p-5">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Customer's Rating ({{o.reviews.rating|floor}})</label>
+                        {% with rating=o.reviews.rating %}
+                        {% for i in rating|floor_range %}
+                            <i class="fa-solid fa-star text-primary"></i>
+                            {% endfor %}
+                        {% endwith %}
+                        {% if o.reviews.rating|has_decimal %}
+                            <i class="fa-regular fa-star-half-stroke text-primary"></i>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Customer's Feedback</label>
+                        <textarea rows="4" class="form-control" name="feedback" placeholder="Write your review..." readonly>{{o.reviews.text}}</textarea>
+                    </div>
+                </div>
+
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+
+{% include "restaurants/includes/footer.html" %}

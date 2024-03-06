@@ -1,0 +1,66 @@
+{% load static %}
+<!-- footer -->
+<footer class="gap no-bottom" style="background-color: #363636;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-12">
+                <div class="footer-description">
+                    <a href="{% url "home:hhome" %}">
+                        <img src="{% static 'home/img/logo.png' %}" width="200" height="80" alt="" srcset="">
+                    </a>
+                    <h2>The Best Healthy Restaurants
+                            in Your  Home</h2>
+                    {% comment %} <p>Vitae congue mauris rhoncus aenean. Enim nulla
+                         aliquet porttitor lacus luctus accumsan
+                            tortor posuere. Tempus egestas sed sed risus pretium quam.</p> {% endcomment %}
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="menu">
+                    <h4>Menu</h4>
+                    <ul class="footer-menu">
+                        <li><a href="{% url "home:home" %}">home<i class="fa-solid fa-arrow-right"></i></a></li>
+                        <li><a href="{% url "home:about" %}">about us<i class="fa-solid fa-arrow-right"></i></a></li>
+                        <li><a href="{% url "home:restaurants" %}">Restaurants<i class="fa-solid fa-arrow-right"></i></a></li>
+                        <li><a href="{% url "home:contact_us" %}">Contacts<i class="fa-solid fa-arrow-right"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="menu contacts">
+                    <h4>Contacts</h4>
+                    <div class="footer-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <p>Manama, Kingdom of Bahrain</p>
+                    </div>
+                    <a href="mailto:quickeat@mail.net"><i class="fa-solid fa-envelope"></i>healthi@mail.net</a>
+                    <a href="callto:+14253261627"><i class="fa-solid fa-phone"></i>+973 123 456 78</a>
+                </div>
+                <ul class="social-media">
+                        <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+                    </ul>
+            </div>
+        </div>
+        <div class="footer-two gap no-bottom">
+            <p>Copyright © 2023. Healthi. All rights reserved.</p>
+            <div class="privacy">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms &amp; Services</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<!-- jQuery -->
+<script src="{% static 'home/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'home/js/jquery.nice-select.min.js' %}"></script>
+<!-- owl.carousel -->
+<script src="{% static 'home/js/owl.carousel.min.js' %}"></script>
+<!-- aos -->
+<script src="{% static 'home/js/aos.js' %}"></script>
+<!-- custom -->
+<script src="{% static 'home/js/custom.js' %}"></script>
+<script src="{% static 'home/js/script.js' %}"></script>

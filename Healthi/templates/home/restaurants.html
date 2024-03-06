@@ -1,0 +1,86 @@
+{% include "home/includes/head.html" %}
+{% include "home/includes/navbar.html" %}
+{% load static %}
+
+ <!-- hero-section -->
+ <section class="hero-section about gap">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-up"  data-aos-delay="200" data-aos-duration="300">
+                <div class="about-text">
+                    <ul class="crumbs d-flex">
+                        <li><a href="{% url "home:home" %}">Home</a></li>
+                        <li class="two"><a href="#"><i class="fa-solid fa-right-long"></i>Restaurants</a></li>
+                    </ul>
+                    <h2>Restaurants</h2>
+                    {% comment %} <p>Egestas sed tempus urna et pharetra pharetra massa. Fermentum posuere urna nec tincidunt praesent semper.</p> {% endcomment %}
+                    <div class="restaurant">
+                        <div class="nice-select-one">
+                            <select class="nice-select Advice">
+                                {% for res in restaurants %}
+                                    <option value="res_{{res.id}}">{{res}}</option>
+                                {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-up"  data-aos-delay="300" data-aos-duration="400">
+                <div class="restaurants-girl-img food-photo-section">
+                    <img alt="man" src="assets/home/img/photo-11.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- best-restaurants -->
+<section class="best-restaurants gap">
+<div class="container">
+<div class="row">
+    {% for res in restaurants %}
+    <div class="col-lg-6 my-1" id="res_{{res.id}}" data-aos="flip-up"  data-aos-delay="200" data-aos-duration="300">
+        <div class="logos-card restaurant-page ">
+            <img alt="logo" style="height:50px" src="{% static res.image %}">
+                <div class="cafa">
+                    <h4><a href="{% url 'home:restaurant_view' pk=res.id %}">{{res}}</a></h4>
+                </div>
+        </div>
+    </div>
+        
+    {% endfor %}
+
+</div>
+</div>
+</section>
+<!-- subscribe-section -->
+<section class="subscribe-section gap">
+<div class="container">
+<div class="row align-items-center">
+    <div class="col-lg-6" data-aos="flip-up"  data-aos-delay="200" data-aos-duration="300">
+        <div class="img-subscribe">
+            <img alt="Illustration" src="assets/home/img/illustration-4.png">
+        </div>
+    </div>
+    <div class="col-lg-5 offset-lg-1" data-aos="flip-up"  data-aos-delay="300" data-aos-duration="400">
+        <div class="get-the-menu">
+            <h2>Get the menu of your favorite restaurants every day</h2>
+            <form>
+                <i class="fa-regular fa-bell"></i>
+                <input type="text" name="email" placeholder="Enter email address">
+                <button class="button button-2">Subscribe</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
+{% include "home/includes/footer.html" %}
+<script>
+    $('.nice-select').on('change', function(){
+        $('body, html').animate({ scrollTop: $('#' + $(this).val()).position().top-300 });
+    });
+</script>
+</body>
+</html>

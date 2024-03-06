@@ -1,0 +1,46 @@
+{% include "home/includes/head.html" %}
+{% include "home/includes/navbar.html" %}
+{% load static %}
+<!-- hero-section -->
+<section class="hero-section gap">
+    <div class="container py-5 my-5">
+        <div class="row align-items-center" style="height:300px">
+            <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" data-aos-duration="300">
+                <div class="restaurant">
+                    <h1>Sign-in to your account</h1>
+                </div>
+            </div>
+            <div class="col-lg-6 aos-init h-100 aos-animate d-flex align-items-center" data-aos="fade-up" data-aos-delay="300" data-aos-duration="400">
+                <div class="img-restaurant w-75 bg">
+                    <div class="card bg-transparancy-80">
+                        <div class="card-body">
+                            <form action="{% url "home:auth" %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group my-3">
+                                    <label for="email">Email address</label>
+                                    <input type="email" class="form-control" name="email" placeholder="name@mail.com">
+                                </div>
+                                
+                                <div class="form-group my-3">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" name="password" placeholder="*****">
+                                </div>
+                                <div>
+                                    <span>Do not have an account <a href="{% url "home:sign_up" %}" class="link text-pprimary">Sign-up!</a></span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="py-2 text-danger">{% if request.GET.err %}Invalid Email or Password{% endif %}</span><br>
+                                    <button type="submit" class="button button-2 btn my-3 "> Submit </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "home/includes/footer.html" %}
+</body>
+</html>

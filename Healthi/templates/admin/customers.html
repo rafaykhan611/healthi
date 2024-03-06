@@ -1,0 +1,59 @@
+{% include "admin/includes/head.html" %}
+{% include "admin/includes/navbar.html" %}
+{% include "admin/includes/sidebar.html" %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{page_name}}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body text-sm table-responsive">
+                            <table id="" class="table table-bordered table-hover dataTables">
+                                <thead>
+                                    <th class="text-center" style="width:15%">Sno</th>
+                                    <th class="text-left" style="width:25%">Name</th>
+                                    <th class="text-left" style="width:15%">Email</th>
+                                    <th class="text-center" style="width:15%">Action</th>
+                                </thead>
+                                <tbody>
+                                    {% for customer in customers %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ customer }}</td>
+                                        <td>{{ customer.email }}</td>
+                                        <td>
+                                            <a href="{% url 'admin:customer_view' pk=customer.id %}" class="btn btn-outline-primary btn-xs" title="View Customer Details"><i class="fas fa-eye"></i></a>
+                                            <a href="{% url 'admin:customer_orders' %}?pk={{customer.id}}" class="btn btn-outline-secondary btn-xs" title="Customer Order History"><i class="fas fa-list"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% include "admin/includes/footer.html" %}

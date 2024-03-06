@@ -1,0 +1,113 @@
+{% include "admin/includes/head.html" %}
+{% include "admin/includes/navbar.html" %}
+{% include "admin/includes/sidebar.html" %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{page_name}}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-secondary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Genaral Details</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="inputName">First Name</label>
+                                        <input type="text" id="inputName" name="name" class="form-control" value="{{customer.first_name}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName">Last Name</label>
+                                        <input type="text" id="inputName" name="name" class="form-control" value="{{customer.last_name}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName">Contact</label>
+                                        <input type="text" id="inputName" name="name" class="form-control" value="{{customer.contact}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName">Email</label>
+                                        <input type="text" id="inputName" name="name" class="form-control" value="{{customer.email}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName">Age</label>
+                                        <input type="text" id="inputName" name="name" class="form-control" value="{{customer.age}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName">Gender</label>
+                                        <input type="text" id="inputName" name="name" class="form-control" value="{% if customer.gender == 'm' %}Male {% else %}Female {% endif %}" readonly>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName">Address</label>
+                                        <textarea class="form-control" rows="4" name="" readonly>{{ customer.address }}</textarea>
+                                    </div>                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-secondary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Calculations Details</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="inputName">Weight</label>
+                                    <input type="text" id="inputName" class="form-control" value="{{ customer_details.weight }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName">Height</label>
+                                    <input type="text" id="inputName" class="form-control" value="{{ customer_details.height_feet }}feets {{ customer_details.height_in }}in" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName">BMI</label>
+                                    <input type="text" id="inputName" class="form-control" value="{{ customer_details.bmi }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName">Calories</label>
+                                    <input type="text" id="inputName" class="form-control" value="{{ customer_details.calories }}" readonly>
+                                </div>
+                                
+                            </div>
+                        
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <a href="{% url "admin:customers" %}" class="btn btn-secondary">Back</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% include "admin/includes/footer.html" %}

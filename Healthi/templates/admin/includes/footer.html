@@ -1,0 +1,15 @@
+{% include "admin/includes/scripts.html" %}
+{% block messages %}
+    <script>
+        {% if messages %}
+            {% for message in messages %}
+            iziToast.{{ message.tags }}({
+                title: '{{ message.tags }}',
+                message: '{{ message }}',
+            });
+            {% endfor %}
+        {% endif %}
+    </script>
+{% endblock %}
+</body>
+</html>

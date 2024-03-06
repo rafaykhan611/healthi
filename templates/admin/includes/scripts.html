@@ -1,0 +1,79 @@
+{% load static %}
+<script src="{% static 'admin/js/plugins/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'admin/js/plugins/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'admin/js/plugins/bootstrap.bundle.min.js' %}"></script>
+<!-- daterangepicker -->
+<script src="{% static 'admin/js/plugins/moment.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'admin/js/plugins/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- Datatable -->
+<script src="{% static 'admin/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'admin/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<!-- CKEDITOR -->
+<script src="{% static 'admin/js/plugins/ckeditor/ckeditor.js' %}"></script>
+<!-- iziToast. -->
+<script src="{% static 'admin/js/plugins/iziToast/js/iziToast.min.js' %}"></script>
+<!-- SELECT2. -->
+<script src="{% static 'admin/js/plugins/select2/js/select2.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'admin/js/core/adminlte.js' %}"></script>
+
+<!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $('.dataTables').DataTable();
+
+  if(document.querySelector('.item_list_selection')){
+    console.log('haha')
+    new Sortable(menu_items, {
+        group: 'shared', // set both lists to same group
+        animation: 150
+    });
+
+    new Sortable(added_menu_items, {
+        group: 'shared',
+        animation: 150
+    });
+  }
+  
+
+
+  $('.select2').each((i,s) => {
+    console.log(s)
+    $(s).select2({
+      placeholder: $(s).attr('placeholder')
+    })
+  })
+})
+
+$('.cc_history').on('click',function(){
+  $('.cc_details_box').prepend(`<div class="loading position-absolute w-100 d-flex flex-column align-items-center bg-white justify-content-center">
+                <div class="spinner-border" role="status">
+</div>
+            </div>`);
+  setTimeout(()=>{
+    $('.loading').remove();
+  },800)
+  
+})
+
+$('.modal').on('hide.bs.modal',() => {
+  $(this).find('form').trigger('reset')
+})
+
+$('.doc_upload').on('change',function(){
+  if($(this).val()){
+    $('.up_doc_form').trigger('submit');
+  }
+})
+
+
+</script>

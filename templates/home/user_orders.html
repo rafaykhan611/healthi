@@ -1,0 +1,86 @@
+{% include "home/includes/head.html" %}
+{% include "home/includes/navbar.html" %}
+{% load static %}
+<!-- hero-section -->
+<section class="hero-section gap">
+    <div class="container py-5 mt-5">
+        <div class="row align-items-center" style="min-height:300px">
+            <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" data-aos-duration="300">
+                <div class="restaurant">
+                    <h1>Your Orders History</h1>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-up"  data-aos-delay="300" data-aos-duration="400">
+                <div class="restaurants-girl-img food-photo-section">
+                    <img alt="man" src="assets/home/img/photo-11.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- best-restaurants -->
+<section class="best-restaurants gap">
+    <div class="container">
+    <div class="row gap-2">
+        <div class="col-lg-12">
+
+            <div class="Provides shadow-lg" data-aos="fade-up"  data-aos-delay="200" data-aos-duration="300">
+
+
+                <div class="nav nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Order History</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12">
+
+            <div class="tab-content" id="v-pills-tabContent" >
+
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <div class="row gap-2">
+                        {% for o in borders %}
+
+                        <div class="card bg-transparent-80" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Order #{{ o.order.id }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ o.order.order_date|date:'d-M-Y' }}</h6>
+                                <p class="card-text">
+                                    <ul>
+                                        {% for oi in o.items %}
+                                            <li>Menu: {{ oi.item }} </li>
+                                            <li>Plan: {% if oi.plan == 'd' %}Daily{% elif oi.plan == 'w'  %}Weekly{% elif oi.plan == 'm' %}Monthly{% endif %} </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <span>Total Amount: {{ o.order.total_amount }}BHD</span>
+                                </p>
+                                {% comment %} <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a> {% endcomment %}
+                            </div>
+                        </div>
+                        
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} <div class="col-lg-6" data-aos="flip-up"  data-aos-delay="200" data-aos-duration="300">
+            <div class="logos-card restaurant-page ">
+                <img alt="logo" style="height:50px" src="{% static res.image %}">
+                    <div class="cafa">
+                        <h4><a href="{% url 'home:restaurant_view' pk=res.id %}">{{res}}</a></h4>
+                    </div>
+            </div>
+        </div> {% endcomment %}
+            
+    
+    </div>
+    </div>
+    </section>
+
+{% include "home/includes/footer.html" %}
+
+</body>
+</html>

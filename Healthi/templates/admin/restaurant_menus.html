@@ -1,0 +1,103 @@
+{% include "admin/includes/head.html" %}
+{% include "admin/includes/navbar.html" %}
+{% include "admin/includes/sidebar.html" %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{page_name}}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-end">
+                            <button class="btn btn-secondary" data-toggle="modal" data-target="#menuItemModal">Add Menu Item</button>
+                            <a class="btn btn-secondary ml-2" href="{% url 'admin:add_menu' restaurant=restaurant.id %}">Add New Menu</a>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body text-sm table-responsive">
+                            <table id="" class="table table-bordered table-hover dataTables">
+                                <thead>
+                                    <th class="text-center" style="width:15%">Sno</th>
+                                    <th class="text-left" style="width:25%">Name</th>
+                                    <th class="text-left" style="width:15%">Status</th>
+                                    <th class="text-center" style="width:15%">Action</th>
+                                </thead>
+                                <tbody>
+                                    {% for menu in restaurant_menus %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ menu.name }}</td>
+                                        <td><span class='badge bg-{%  if menu.status == "Y" %}primary{%else%}danger{%endif%}'>{%  if menu.status == "Y" %}Active{%else%}Non Active{%endif%}</span></td>
+                                        <td>
+                                            <a href="{% url 'admin:view_menu' restaurant_menu=menu.id %}" class="btn btn-outline-primary btn-xs" title="View Restaurant Menu Details"><i class="fas fa-eye"></i></a>
+                                            <a href="{% url 'admin:edit_menu' restaurant_menu=menu.id %}" class="btn btn-outline-secondary btn-xs" title="Edit Restaurant Mnu Details"><i class="fas fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+<!-- menu item model -->
+<div class="modal fade" id="menuItemModal" tabindex="-1" aria-labelledby="menuItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="menuItemModalLabel">Add New Case Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="menuItemForm" action="{% url "admin:add_menu_item" restaurant=restaurant.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="inputName">Name</label>
+                        <input type="text" id="inputName" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputcal">Calories</label>
+                        <input type="text" id="inputcal" name="calories" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputimg">Image</label>
+                        <input type="file" id="inputimg" name="image" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputdesc">Description</label>
+                        <textarea id="inputdesc" name="description" class="form-control" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" form="menuItemForm" class="btn btn-secondary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /menu item model -->
+{% include "admin/includes/footer.html" %}

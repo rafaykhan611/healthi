@@ -1,0 +1,254 @@
+{% include "home/includes/head.html" %}
+{% include "home/includes/navbar.html" %}
+{% load static %}
+<!-- hero-section -->
+<section class="hero-section gap">
+    <div class="container py-5 my-5">
+        <div class="row align-items-center" style="min-height:300px">
+            <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" data-aos-duration="300">
+                <div class="restaurant">
+                    <h1>Create Your new Account with us</h1>
+                </div>
+            </div>
+            <div class="col-lg-6 aos-init h-100 aos-animate d-flex align-items-center" data-aos="fade-up" data-aos-delay="300" data-aos-duration="400">
+                <div class="img-restaurant w-75 bg">
+                    <div class="card bg-transparancy-80">
+                        <div class="card-body">
+                            <form action="{% url "home:register" %}" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="">First Name</label>
+                                        <input type="text" class="form-control" name="first_name">
+                                    </div>
+                                    <div class="col">
+                                        <label for="">Last Name</label>
+                                        <input type="text" class="form-control" name="last_name">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group my-3">
+                                            <label for="email">Age</label>
+                                            <input type="number" class="form-control" name="age" id="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group my-3">
+                                            <label for="email">Gender</label>
+                                            <select class="form-control" name="gender" id="">
+                                                <option value="" selected disabled>Select Gender</option>
+                                                <option value="m">Male</option>
+                                                <option value="f">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                                <div class="form-group my-3">
+                                    <label for="">Contact</label>
+                                    <input type="text" class="form-control" name="contact" placeholder="">
+                                </div>
+                                <div class="form-group my-3">
+                                    <label for="">Address</label>
+                                    <textarea name="address" class="form-control" id="" cols="30" rows="3"></textarea>
+                                </div>
+                                <div class="form-group my-3">
+                                    <label for="">Email address</label>
+                                    <input type="email" class="form-control" name="email" placeholder="mail@gmail.com">
+                                </div>
+                                
+                                <div class="form-group my-3">
+                                    <label for="">Password</label>
+                                    <input type="password" class="form-control" name="password" placeholder="*****">
+                                </div>
+                                <div>
+                                    <span>Already have an account <a href="{% url "home:sign_in" %}" class="link text-pprimary">Sign-in!</a></span>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button class="button button-2 btn my-3 "> Submit </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Button to trigger the modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#multiStepModal">
+    Manage Your Details
+</button>
+
+<!-- Multi-Step Modal -->
+<div class="modal fade" id="multiStepModal" tabindex="-1" aria-labelledby="multiStepModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="multiStepModalLabel">Calculate Your Body Mass Index (BMI)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Step 1 Content -->
+            <div class="modal-body step-1">
+                <div class="mb-3">
+                    <label for="weight" class="form-label">Weight (lbs): </label>
+                    <input type="number" id="weight" class="form-control" placeholder="Enter your weight in pounds">
+                </div>
+    
+                <div class="mb-3">
+                    <label for="feet" class="form-label">Height (feet): </label>
+                    <input type="number" id="feet" class="form-control" placeholder="Enter your height in feet">
+                </div>
+    
+                <div class="mb-3">
+                    <label for="inches" class="form-label">Height (inches): </label>
+                    <input type="number" id="inches" class="form-control" placeholder="Enter your height in inches">
+                </div>
+    
+                <div class="text-muted">
+                    BMI Categories:<br>
+                    Underweight = <18.5<br>
+                    Normal weight = 18.5–24.9<br>
+                    Overweight = 25–29.9<br>
+                    Obesity = BMI of 30 or greater
+                </div>
+    
+                <div class="mt-4">
+                    Your estimated BMI is: <span id="result"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button onclick="calculateBMI()" class="btn btn-primary">Calculate BMI</button>
+                    <button class="btn btn-primary next-step">Next</button>
+                </div>
+
+            </div>
+
+            <!-- Step 2 Content -->
+            <div class="modal-body step-2" style="display: none;">
+                <label for="activity">Activity Level: </label>
+                <select id="activity">
+                    <option value="1.2">Sedentary (little or no exercise)</option>
+                    <option value="1.375">Lightly active (light exercise/sports 1-3 days/week)</option>
+                    <option value="1.55">Moderately active (moderate exercise/sports 3-5 days/week)</option>
+                    <option value="1.725">Very active (hard exercise/sports 6-7 days a week)</option>
+                    <option value="1.9">Extra active (very hard exercise/sports & physical job or 2x training)</option>
+                </select>
+            
+                <br>
+            
+                <label for="goal">Weight Management Goal: </label>
+                <select id="goal">
+                    <option value="maintenance">Maintain Weight</option>
+                    <option value="lose">Lose Weight</option>
+                    <option value="gain">Gain Weight</option>
+                </select>
+            
+                <br>
+            
+                
+                <br>
+                
+                <h3>Your estimated daily calorie intake is: <span id="calories"></span> calories</h3>
+                
+                <button class="btn btn-secondary prev-step">Previous</button>
+                <button onclick="calculateCalories()">Calculate Calories</button>
+                <button class="btn btn-primary" data-bs-dismiss="modal">Finish</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+{% include "home/includes/footer.html" %}
+<script>
+    function calculateBMI() {
+        var weight = document.getElementById("weight").value;
+        var feet = document.getElementById("feet").value;
+        var inches = document.getElementById("inches").value;
+
+        if (weight === "" || feet === "" || inches === "") {
+            alert("Please enter all values.");
+            return;
+        }
+
+        var heightInInches = (feet * 12) + parseInt(inches);
+        var weightInKg = weight * 0.453592;
+        var heightInMeters = heightInInches * 0.0254;
+
+        var bmi = weightInKg / (heightInMeters * heightInMeters);
+
+        document.getElementById("result").innerHTML = bmi.toFixed(2);
+    }
+
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        var currentStep = 1;
+
+        // Function to show the next step
+        function showNextStep() {
+            $('.step-' + currentStep).hide();
+            currentStep++;
+            $('.step-' + currentStep).show();
+        }
+
+        // Function to show the previous step
+        function showPrevStep() {
+            $('.step-' + currentStep).hide();
+            currentStep--;
+            $('.step-' + currentStep).show();
+        }
+
+        // Event listener for the "Next" button
+        $('.next-step').click(function () {
+            showNextStep();
+        });
+
+        // Event listener for the "Previous" button
+        $('.prev-step').click(function () {
+            showPrevStep();
+        });
+    });
+
+    function calculateCalories() {
+        var bmi = parseFloat(document.getElementById("bmi").value);
+        var age = parseInt(document.getElementById("age").value);
+        var gender = document.getElementById("gender").value;
+        var activity = parseFloat(document.getElementById("activity").value);
+        var goal = document.getElementById("goal").value;
+
+        if (isNaN(bmi) || isNaN(age)) {
+            alert("Please enter valid values for BMI and age.");
+            return;
+        }
+
+        var bmr;
+        if (gender === "male") {
+            bmr = 88.362 + (13.397 * bmi) + (4.799 * age) - (5.677 * bmi);
+        } else {
+            bmr = 447.593 + (9.247 * bmi) + (3.098 * age) - (4.330 * bmi);
+        }
+
+        var tdee = bmr * activity;
+
+        var calories;
+        if (goal === "lose") {
+            calories = tdee - 500; // Create a caloric deficit for weight loss
+        } else if (goal === "gain") {
+            calories = tdee + 500; // Create a caloric surplus for weight gain
+        } else {
+            calories = tdee; // Maintain weight
+        }
+
+        document.getElementById("calories").innerHTML = Math.round(calories);
+
+
+
+</script>
+</body>
+</html>

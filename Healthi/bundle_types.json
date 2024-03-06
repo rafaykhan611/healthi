@@ -1,0 +1,23 @@
+[
+    {
+        "model": "restaurants.bundle_type",
+        "pk": 1,
+        "fields": {
+            "name": "Breakfast"
+        }
+    },
+    {
+        "model": "restaurants.bundle_type",
+        "pk": 2,
+        "fields": {
+            "name": "Lunch"
+        }
+    },
+    {
+        "model": "restaurants.bundle_type",
+        "pk": 3,
+        "fields": {
+            "name": "Dinner"
+        }
+    }
+]

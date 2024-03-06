@@ -1,0 +1,141 @@
+{% include "admin/includes/head.html" %}
+{% include "admin/includes/navbar.html" %}
+{% include "admin/includes/sidebar.html" %}
+{% load navigation_tags %}
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Customer Orders</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body text-sm table-responsive">
+                            <table id="" class="table table-bordered table-hover dataTables">
+                                <thead>
+                                    <th class="text-center" style="">Sno</th>
+                                    <th class="text-left">Order Date</th>
+                                    <th class="text-left">Restaurant</th>
+                                    <th class="text-left">Menu</th>
+                                    <th class="text-left">Plan</th>
+                                    <th class="text-left">Price</th>
+                                    <th class="text-left">User Feedback</th>
+                                </thead>
+                                <tbody>
+                                    {% for order in orderss %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{order.order.order_date|date:'d-M-Y'}}</td>
+                                        <td>
+                                            <ul>
+                                                {% for oi in order.items  %}
+                                                {{ oi.item.restaurant }}
+                                                {% endfor %}
+
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                {% for oi in order.items  %}
+                                                {{ oi.item.name }}
+                                                {% endfor %}
+
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                {% for oi in order.items  %}
+                                                {% if oi.plan == 'd' %}Daily{% elif oi.plan == 'w' %}Weekly{% elif oi.plan == 'm' %}Monthly{% endif %}
+                                                {% endfor %}
+
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                {% for oi in order.items  %}
+                                                {{ oi.price }}BHD
+                                                {% endfor %}
+
+                                            </ul>
+                                        </td>
+                                        
+                                        <td>
+                                            {% if order.reviews %}
+                                            <button type="button" class="btn btn-border btn-primary" data-toggle="modal" data-target="#comment_model_{{order.order.id}}" title="Rate Your Experiarnce">
+                                                <i class="fas fa-comment"></i>    
+                                            </button>
+                                            {% endif %}
+                                        </td>
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+{% for o in orderss %}
+{% if o.reviews %}
+<!-- Modal -->
+<div class="modal fade" id="comment_model_{{o.order.id}}" tabindex="-1" aria-labelledby="comment_model_{{o.order.id}}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="comment_model_{{o..id}}_label">Customer's Feedback</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            
+                <div class="p-5">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Customer's Rating ({{o.reviews.rating|floor}})</label>
+                        {% with rating=o.reviews.rating %}
+                        {% comment %} <pre>{{o.reviews.rating}}</pre> {% endcomment %}
+                        {% for i in rating|floor_range %}
+                            <i class="fa-solid fa-star text-primary"></i>
+                            {% endfor %}
+                        {% endwith %}
+                        {% if o.reviews.rating|has_decimal %}
+                            <i class="fa-regular fa-star-half-stroke text-primary"></i>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Customer's Feedback</label>
+                        <textarea rows="4" class="form-control" name="feedback" placeholder="Write your review..." readonly>{{o.reviews.text}}</textarea>
+                    </div>
+                </div>
+
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+
+<!-- /.content-wrapper -->
+{% include "admin/includes/footer.html" %}
